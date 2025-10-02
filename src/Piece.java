@@ -30,7 +30,7 @@ abstract class Piece {
     @Override
     public String toString() {
         DecimalFormat numberFormat = new DecimalFormat("#.00");
-        return typePiece + " surface : " + numberFormat.format(Surface()) + " m2 \n";
+        return "- " + typePiece + " surface : " + numberFormat.format(Surface()) + " m2\n";
     }
 
 
