@@ -1,7 +1,8 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.UUID;
 
-abstract class BienImmobilier {
+public class BienImmobilier {
     public static final String TYPE_MAISON = "Maison";
     public static final String TYPE_APPARTEMENT = "Appartement";
     
@@ -9,22 +10,17 @@ abstract class BienImmobilier {
     
     private String id;
     private String type;
-    private String adresse;
+    private String rue;
     private String ville;
     private String codePostal;
     public ArrayList<Piece> pieces = new ArrayList<Piece>();
 
 
 
-    public BienImmobilier(String adresse, String ville, String codePostal, ArrayList<Piece> pieces) {
-        this.adresse = adresse;
-        this.ville = ville;
-        this.codePostal = codePostal;
-        this.pieces = pieces;
-    }
-
-    public BienImmobilier(String adresse, String ville, String codePostal) {
-        this.adresse = adresse;
+    public BienImmobilier( String type, String rue, String ville, String codePostal) {
+        this.id = UUID.randomUUID().toString().substring(0, 5);
+        this.type = type;
+        this.rue = rue;
         this.ville = ville;
         this.codePostal = codePostal;
     }
@@ -32,7 +28,7 @@ abstract class BienImmobilier {
     public double surfaceHabitable() {
         double surfaceHabitable = 0;
         for (Piece piece : pieces) {
-            if (piece.getTypePiece().surfaceHabitable) {
+            if (piece.getTypePiece().isSurfaceHabitable()) {
                 surfaceHabitable += piece.Surface();
             }
         }
@@ -42,7 +38,7 @@ abstract class BienImmobilier {
     public double surfaceNonHabitable() {
         double surfaceNonHabitable = 0;
         for (Piece piece : pieces) {
-            if (!piece.getTypePiece().surfaceHabitable) {
+            if (!piece.getTypePiece().isSurfaceHabitable()) {
                 surfaceNonHabitable += piece.Surface();
             }
         }
@@ -54,11 +50,11 @@ abstract class BienImmobilier {
     }
 
 
-    public String getAdresse() {
-        return adresse;
+    public String getRue() {
+        return rue;
     }
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setRue(String rue) {
+        this.rue = rue;
     }
     public String getVille() {
         return ville;
@@ -72,11 +68,17 @@ abstract class BienImmobilier {
     public void setCodePostal(String codePostal) {
         this.codePostal = codePostal;
     }
-    public Vendeur getVendeur() {
-        return vendeur;
+    public String getId() {
+        return id;
     }
-    public void setVendeur(Vendeur vendeur) {
-        this.vendeur = vendeur;
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
     }
     public ArrayList<Piece> getPieces() {
         return pieces;
@@ -89,7 +91,7 @@ abstract class BienImmobilier {
     @Override
     public String toString() {
         DecimalFormat numberFormat = new DecimalFormat("#.00");
-        return "\nLocalisation : " + adresse + ", " + codePostal + " " + ville +  "\n" +
+        return "\nLocalisation : " + rue + ", " + codePostal + " " + ville +  "\n" +
                 "\n Description du bien : \n" + pieces.toString() +
                 "\nPour une surface habitable de : " + 
                 numberFormat.format(surfaceHabitable()) + 
